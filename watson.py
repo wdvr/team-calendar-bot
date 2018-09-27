@@ -1,5 +1,6 @@
 from watson_developer_cloud import AssistantV1
 import settings
+import re
 
 assistant = AssistantV1(
     iam_apikey=settings.WATSON_API_KEY,
@@ -18,8 +19,13 @@ def ask_watson(query, context=None, debug=False):
     :param context=None: Optional context from previous requests. Use to pass previous state.
     :param debug=False: Print the detecten intent and result to stdout 
     """
+
+    # Watson cannot handle new lines or tabs
+    query = re.sub(r'[\t\n]', '', query)
+
     response = assistant.message( workspace_id = workspace_id, input = { 'text': query }, context=context )
     result = response.result
+
     if debug:
         if result['intents']:
             print('detected intent: #' + result['intents'][0]['intent'])

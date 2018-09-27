@@ -19,3 +19,7 @@ BOT_ICON = ''
 WATSON_URL = 'https://gateway-wdc.watsonplatform.net/assistant/api'
 WATSON_API_KEY = 'INSERT_API_KEY_HERE'
 WATSON_WORKSPACE_ID = 'INSERT_WORKSPACE_ID_HERE'
+
+# TeamCalendar & API URL
+TEAM_CALENDAR_URL = 'http://localhost:4200'
+TEAM_CALENDAR_API_URL = 'http://localhost:8080/api'

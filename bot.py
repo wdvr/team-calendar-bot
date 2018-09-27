@@ -6,6 +6,7 @@ import re
 import requests
 import json
 import watson
+from events import VacationEvent
 
 app = Flask(__name__)
 
@@ -17,12 +18,11 @@ def api_welcome():
 
 @app.route('/', methods=['POST'])
 def receive_mattermost():
-    """We only have 1 incoming hook"""
     try:
         body = request.json
         token = body['token']
         fromChannel = body['channel_name']
-        userName = body['user_name']
+        user_name = body['user_name']
         requestText = body['text']
         requestUserid = body['user_id']
     except:
@@ -35,10 +35,7 @@ def receive_mattermost():
             return send_message_back( get_error_payload( fromChannel, "The integration is not correctly set up. Token not valid." ) )
 
     
-    payload = get_response( fromChannel, userName, requestText )
-
-    if payload is None:
-        return send_message_back( get_error_payload( fromChannel, "There was an exception when searching for the issue in Jira." ) )
+    payload = get_response( fromChannel, user_name, requestText )
 
     return send_message_back( payload )
 
@@ -50,7 +47,9 @@ def send_message_back( payload ):
     return resp
 
 def get_error_payload( channel, errorMessage ):
-    """Return the payload of the return message in case of an error"""
+    '''
+    Return the payload of the return message in case of an error
+    '''
     return { 'response_type': 'ephemeral', 'channel': channel, 'text': 'Oops, something went wrong.', 'username': settings.BOT_NAME, 
 	          'attachments': [{
                     'fallback': 'There was a problem with Calendar Bot.',
@@ -66,21 +65,81 @@ def get_error_payload( channel, errorMessage ):
                   }]
 				}
 
-def get_response( fromChannel, userName, requestText ):
+def hasTrigger(requestText):
+    '''
+    Returns true if the input text starts with the triggerword, or greets the bot (e.g. "hi BOT_NAME [...]", or "@BOTNAME, [...]", etc.)
+    '''
+    match = re.match(r'^(hi|hey|hello)?\s*@?'+settings.BOT_NAME, requestText, re.IGNORECASE)
+    return True if match else False
+
+def did_conversation_end(response):
+    '''
+    Returns true if the response is a 'final message', i.e. no more information is requested from the user.
+    '''
+    return 'branch_exited' in response['context']['system'] and response['context']['system']['branch_exited']
+
+def get_response_from_intent(user_name, watson_response):
+    intent = watson_response['intents'][0]['intent']
+    context = watson_response['context']
+    if intent == 'createvacation':
+        type = context['vacationtype']
+        start_date = context['date']
+        end_date = context['date_2'] if 'date_2' in context else context['date']
+        vacation = VacationEvent(user=user_name, type=type, start_date=start_date, end_date=end_date)
+        r = requests.post(settings.TEAM_CALENDAR_API_URL+'/events', json=json.loads(vacation.toJSON()))
+        if r.status_code > 199 and r.status_code < 300:
+            date_string = start_date + '-' + end_date if start_date != end_date else start_date
+            response_text = "I added your availability ({} for {})." \
+                            "Check it out on {}.".format(type, date_string, settings.TEAM_CALENDAR_URL)
+        else:
+            response_text = "I couldn't save that. " \
+                            "I understood you wanted to create a new vacation, " \
+                            "but something went wrong when posting the request." \
+                            "\nResponse from the calendar webservice: \n\n{} - {} - {}".format(r.status_code, r.reason, r.content)
+    elif intent == 'thisweeksholidays':
+        response_text = "I will be able to give you this weeks availabilities soon."
+    elif intent == 'todaysholidays':
+        response_text = "I will be able to give you todays availabilities soon."
+    else:
+        # No handler for this intent. Delegate back to Watson.
+        response_text = watson_response['output']['text'][0]
+    return response_text
+
+def get_response( fromChannel, user_name, requestText ):
     context = None
-    if userName in contexts:
-        context = contexts[userName]
+
+    # First check if we have an ongoing session, in which case a context should exist for this user
+    if user_name in contexts and contexts[user_name]:
+        context = contexts[user_name]
+    # If there is no context, and no trigger word, we will not react to the message
+    elif not hasTrigger(requestText):
+        return
+
     response = watson.ask_watson(requestText, context=context)
-    contexts[userName] = response['context']
-    payload = { 'response_type': 'in_channel', 
+    print(response)
+    conversation_ended = did_conversation_end(response)
+
+    contexts[user_name] = response['context']
+    
+    # If we don't have all information yet, delegate back to Watson and keep the context
+    if not conversation_ended:
+        print('conversation not ended')
+        response_text = response['output']['text'][0]
+    elif response['intents']:
+        response_text = get_response_from_intent(user_name, response)
+        contexts[user_name] = None
+        print('context cleared')
+
+        # We fully handled the user's request, so we clear the context.
+    else:
+        response_text = "I didn't get that. Please try rephrasing. Ask 'What can I ask you?' for help"
+
+    return { 'response_type': 'in_channel', 
                 'channel': fromChannel, 
-                'text': userName + ', I got your message: ' + requestText, 
+                'text': response_text, 
                 'username': settings.BOT_NAME,
                 'icon_url': settings.BOT_ICON
 	          }
-
-    return payload
-
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)
