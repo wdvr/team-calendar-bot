@@ -78,8 +78,15 @@ def did_conversation_end(response):
     return 'branch_exited' in response['context']['system'] and response['context']['system']['branch_exited']
 
 def get_response_from_intent(user_name, watson_response):
+    '''
+    This method creates a response based on what Watson returned (intent found? If yes, which one?).
+    The method makes a call to the API to either POST or GET events, so it can take a while.
+    '''
     intent = watson_response['intents'][0]['intent']
     context = watson_response['context']
+    
+    attachment = None
+    
     if intent == 'createvacation':
         type = context['vacationtype']
         start_date = context['date']
@@ -95,20 +102,77 @@ def get_response_from_intent(user_name, watson_response):
                             "I understood you wanted to create a new vacation, " \
                             "but something went wrong when posting the request." \
                             "\nResponse from the calendar webservice: \n\n{} - {} - {}".format(r.status_code, r.reason, r.content)
+    
     elif intent == 'thisweeksholidays':
         start = events.getStartOfThisWeekString()
         end = events.getEndOfThisWeekString()
+
         r = requests.get(settings.TEAM_CALENDAR_API_URL+'/events', params = {"start" : start, "end": end})
-        response_text = "This weeks holidays: " + str(r.json())
+        results = r.json()
+        count = len(results)
+
+        if count:
+            attachment = getVacationTable(results)
+            response_text = "This weeks holiday schedule: "
+        else:
+            response_text = "Nobody is off this week, looks like it's going to be full house this week!"
+
     elif intent == 'todaysholidays':
         start = events.getStartOfTodayString()
         end = events.getEndOfTodayString()
+
         r = requests.get(settings.TEAM_CALENDAR_API_URL+'/events', params = {"start" : start, "end": end})
-        response_text = "Todays holidays: " + str(r.json())
+        results = r.json()
+        count = len(results)
+
+        if count:
+            attachment = getVacationTable(results)
+            response_text = "{0} {1} off today: ".format(count, "person is" if count == 1 else "people are")
+        else:
+            response_text = "Nobody is off today, perfect day for a team lunch?"
+
     else:
-        # No handler for this intent. Delegate back to Watson.
-        response_text = watson_response['output']['text'][0]
-    return response_text
+        # As a default, do not alter the repsonse and delegate back to Watson.
+        try:
+            response_text = watson_response['output']['text'][0]
+        except:
+            response_text = "Watson is confused. Try asking it another way."
+
+    return response_text, attachment
+
+def findUser(username, users):
+    for user in users:
+        if user['username'] == username:
+            return user
+    return {'name': 'Unknown user', 'color': '#FF141A'}
+
+def getVacationTable(vacation_json):
+    users = requests.get(settings.TEAM_CALENDAR_API_URL+'/users').json()
+
+    vacations_attachment = []
+    for vacation in vacation_json:
+        type = events.get_watson_type_string(vacation['type'])
+        user = findUser(vacation['user'], users)
+        attachment = {
+                    'fallback': '',
+                    'color': user['color'],
+                    'text': user['name'],
+                    'fields': [
+                        {
+                            "short": True,
+                            "title": "Type",
+                            "value": type
+                        },
+                        {
+                            "short": True,
+                            "title": "When",
+                            "value": vacation['start'] + " - " + vacation['end']
+                        }
+                    ],
+                }
+        vacations_attachment.append( attachment )
+
+    return vacations_attachment
 
 def get_response( fromChannel, user_name, requestText ):
     context = None
@@ -121,16 +185,16 @@ def get_response( fromChannel, user_name, requestText ):
         return
 
     response = watson.ask_watson(requestText, context=context)
-    print(response)
     conversation_ended = did_conversation_end(response)
-
     contexts[user_name] = response['context']
-    
+
+    attachment = None
+
     # If we don't have all information yet, delegate back to Watson and keep the context
     if not conversation_ended:
         response_text = response['output']['text'][0]
     elif response['intents']:
-        response_text = get_response_from_intent(user_name, response)    
+        response_text, attachment = get_response_from_intent(user_name, response)    
         # We fully handled the user's request, so we clear the context.
         contexts[user_name] = None
     else:
@@ -140,7 +204,8 @@ def get_response( fromChannel, user_name, requestText ):
                 'channel': fromChannel, 
                 'text': response_text, 
                 'username': settings.BOT_NAME,
-                'icon_url': settings.BOT_ICON
+                'icon_url': settings.BOT_ICON,
+                'attachments': attachment
 	          }
 
 if __name__ == '__main__':
