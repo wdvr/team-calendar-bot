@@ -6,7 +6,7 @@ import re
 import requests
 import json
 import watson
-from events import VacationEvent
+import events
 
 app = Flask(__name__)
 
@@ -26,15 +26,14 @@ def receive_mattermost():
         requestText = body['text']
         requestUserid = body['user_id']
     except:
-        app.logger.error('Something went wrong when initializing the parameters.')
+        print('Something went wrong when initializing the parameters.')
         return send_message_back( get_error_payload( fromChannel, "The integration is not correctly set up. Could not fetch all necessary request parameters." ) )
 
     if settings.MATTERMOST_TOKEN:
         if not token == settings.MATTERMOST_TOKEN:
-            app.logger.error('Received wrong token, received [%s]', token)
+            print('Received wrong token, received [%s]', token)
             return send_message_back( get_error_payload( fromChannel, "The integration is not correctly set up. Token not valid." ) )
 
-    
     payload = get_response( fromChannel, user_name, requestText )
 
     return send_message_back( payload )
@@ -85,7 +84,7 @@ def get_response_from_intent(user_name, watson_response):
         type = context['vacationtype']
         start_date = context['date']
         end_date = context['date_2'] if 'date_2' in context else context['date']
-        vacation = VacationEvent(user=user_name, type=type, start_date=start_date, end_date=end_date)
+        vacation = events.VacationEvent(user=user_name, type=type, start_date=start_date, end_date=end_date)
         r = requests.post(settings.TEAM_CALENDAR_API_URL+'/events', json=json.loads(vacation.toJSON()))
         if r.status_code > 199 and r.status_code < 300:
             date_string = start_date + '-' + end_date if start_date != end_date else start_date
@@ -97,9 +96,15 @@ def get_response_from_intent(user_name, watson_response):
                             "but something went wrong when posting the request." \
                             "\nResponse from the calendar webservice: \n\n{} - {} - {}".format(r.status_code, r.reason, r.content)
     elif intent == 'thisweeksholidays':
-        response_text = "I will be able to give you this weeks availabilities soon."
+        start = events.getStartOfThisWeekString()
+        end = events.getEndOfThisWeekString()
+        r = requests.get(settings.TEAM_CALENDAR_API_URL+'/events', params = {"start" : start, "end": end})
+        response_text = "This weeks holidays: " + str(r.json())
     elif intent == 'todaysholidays':
-        response_text = "I will be able to give you todays availabilities soon."
+        start = events.getStartOfTodayString()
+        end = events.getEndOfTodayString()
+        r = requests.get(settings.TEAM_CALENDAR_API_URL+'/events', params = {"start" : start, "end": end})
+        response_text = "Todays holidays: " + str(r.json())
     else:
         # No handler for this intent. Delegate back to Watson.
         response_text = watson_response['output']['text'][0]
@@ -123,14 +128,11 @@ def get_response( fromChannel, user_name, requestText ):
     
     # If we don't have all information yet, delegate back to Watson and keep the context
     if not conversation_ended:
-        print('conversation not ended')
         response_text = response['output']['text'][0]
     elif response['intents']:
-        response_text = get_response_from_intent(user_name, response)
-        contexts[user_name] = None
-        print('context cleared')
-
+        response_text = get_response_from_intent(user_name, response)    
         # We fully handled the user's request, so we clear the context.
+        contexts[user_name] = None
     else:
         response_text = "I didn't get that. Please try rephrasing. Ask 'What can I ask you?' for help"
 
