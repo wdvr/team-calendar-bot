@@ -95,7 +95,7 @@ def get_response_from_intent(user_name, watson_response):
         r = requests.post(settings.TEAM_CALENDAR_API_URL+'/events', json=json.loads(vacation.toJSON()))
         if r.status_code > 199 and r.status_code < 300:
             date_string = start_date + '-' + end_date if start_date != end_date else start_date
-            response_text = "I added your availability ({} for {})." \
+            response_text = "I added your availability ({} for {}). " \
                             "Check it out on {}.".format(type, date_string, settings.TEAM_CALENDAR_URL)
         else:
             response_text = "I couldn't save that. " \
