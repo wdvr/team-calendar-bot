@@ -12,6 +12,8 @@ app = Flask(__name__)
 
 contexts = {}
 
+UNKNOWN_USER = {'name': 'Unknown user', 'color': '#FF141A'}
+
 @app.route('/', methods=['GET'])
 def api_welcome():
     return 'Welcome to the CalendarBot API. It seems that the server is running correctly. Use a POST to this URL to get '
@@ -24,7 +26,6 @@ def receive_mattermost():
         fromChannel = body['channel_name']
         user_name = body['user_name']
         requestText = body['text']
-        requestUserid = body['user_id']
     except:
         print('Something went wrong when initializing the parameters.')
         return send_message_back( get_error_payload( fromChannel, "The integration is not correctly set up. Could not fetch all necessary request parameters." ) )
@@ -83,55 +84,15 @@ def get_response_from_intent(user_name, watson_response):
     The method makes a call to the API to either POST or GET events, so it can take a while.
     '''
     intent = watson_response['intents'][0]['intent']
-    context = watson_response['context']
-    
-    attachment = None
-    
+        
     if intent == 'createvacation':
-        type = context['vacationtype']
-        start_date = context['date']
-        end_date = context['date_2'] if 'date_2' in context else context['date']
-        vacation = events.VacationEvent(user=user_name, type=type, start_date=start_date, end_date=end_date)
-        r = requests.post(settings.TEAM_CALENDAR_API_URL+'/events', json=json.loads(vacation.toJSON()))
-        if r.status_code > 199 and r.status_code < 300:
-            date_string = start_date + '-' + end_date if start_date != end_date else start_date
-            response_text = "I added your availability ({} for {}). " \
-                            "Check it out on {}.".format(type, date_string, settings.TEAM_CALENDAR_URL)
-        else:
-            response_text = "I couldn't save that. " \
-                            "I understood you wanted to create a new vacation, " \
-                            "but something went wrong when posting the request." \
-                            "\nResponse from the calendar webservice: \n\n{} - {} - {}".format(r.status_code, r.reason, r.content)
-    
+        response_text, attachment = handle_create_vacation(user_name, watson_response['context'])
     elif intent == 'thisweeksholidays':
-        start = events.getStartOfThisWeekString()
-        end = events.getEndOfThisWeekString()
-
-        r = requests.get(settings.TEAM_CALENDAR_API_URL+'/events', params = {"start" : start, "end": end})
-        results = r.json()
-        count = len(results)
-
-        if count:
-            attachment = getVacationTable(results)
-            response_text = "This weeks holiday schedule: "
-        else:
-            response_text = "Nobody is off this week, looks like it's going to be full house this week!"
-
+        response_text, attachment = handle_this_week_holidays()
     elif intent == 'todaysholidays':
-        start = events.getStartOfTodayString()
-        end = events.getEndOfTodayString()
-
-        r = requests.get(settings.TEAM_CALENDAR_API_URL+'/events', params = {"start" : start, "end": end})
-        results = r.json()
-        count = len(results)
-
-        if count:
-            attachment = getVacationTable(results)
-            response_text = "{0} {1} off today: ".format(count, "person is" if count == 1 else "people are")
-        else:
-            response_text = "Nobody is off today, perfect day for a team lunch?"
-
+        response_text, attachment = handle_today_holidays()
     else:
+        attachment = None
         # As a default, do not alter the repsonse and delegate back to Watson.
         try:
             response_text = watson_response['output']['text'][0]
@@ -140,11 +101,69 @@ def get_response_from_intent(user_name, watson_response):
 
     return response_text, attachment
 
+def handle_create_vacation(user_name, context):
+    '''
+    Handles the creation of a new vacation request. Returns a result string, no attachment.
+    '''
+    vacation_type = context['vacationtype']
+    start_date = context['date']
+    end_date = context['date_2'] if 'date_2' in context else context['date']
+
+    users = requests.get(settings.TEAM_CALENDAR_API_URL+'/users').json()
+    user = findUser(user_name, users)
+    vacation = events.VacationEvent(user=user_name, type=vacation_type, start_date=start_date, end_date=end_date)
+    r = requests.post(settings.TEAM_CALENDAR_API_URL+'/events', json=json.loads(vacation.toJSON()))
+    if r.status_code > 199 and r.status_code < 300:
+        user_info = "Your user is not in the DB though. Please add it manually. " if user == UNKNOWN_USER else ""
+
+        date_string = 'from ' + start_date + ' until ' + end_date if start_date != end_date else 'for ' + start_date
+        response_text = "I added your availability ({} {}). ".format(vacation_type, date_string) \
+                        + user_info + \
+                        "Check it out on {}.".format(settings.TEAM_CALENDAR_URL)
+    else:
+        response_text = "I couldn't save that. " \
+                        "I understood you wanted to create a new vacation, " \
+                        "but something went wrong when posting the request." \
+                        "\nResponse from the calendar webservice: \n\n{} - {} - {}".format(r.status_code, r.reason, r.content)
+    return response_text, None
+
+def handle_this_week_holidays():
+    '''
+    Handles the request for this weeks holidays. Returns a result string, and attachment cards for every holiday found.
+    '''
+    start = events.getStartOfThisWeekString()
+    end = events.getEndOfThisWeekString()
+
+    r = requests.get(settings.TEAM_CALENDAR_API_URL+'/events', params = {"start" : start, "end": end})
+    results = r.json()
+    count = len(results)
+
+    if count:
+        return "This weeks holiday schedule: ", getVacationTable(results)
+    else:
+        return "Nobody is off this week, looks like it's going to be full house this week!", None
+
+def handle_today_holidays():
+    '''
+    Handles the request for todays holidays. Returns a result string, and attachment cards for every person that is off today.
+    '''
+    start = events.getStartOfTodayString()
+    end = events.getEndOfTodayString()
+
+    r = requests.get(settings.TEAM_CALENDAR_API_URL+'/events', params = {"start" : start, "end": end})
+    results = r.json()
+    count = len(results)
+
+    if count:
+        return "{0} {1} off today: ".format(count, "person is" if count == 1 else "people are"), getVacationTable(results)
+    else:
+        return "Nobody is off today, perfect day for a team lunch?", None
+
 def findUser(username, users):
     for user in users:
         if user['username'] == username:
             return user
-    return {'name': 'Unknown user', 'color': '#FF141A'}
+    return UNKNOWN_USER
 
 def getVacationTable(vacation_json):
     users = requests.get(settings.TEAM_CALENDAR_API_URL+'/users').json()
