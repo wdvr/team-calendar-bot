@@ -215,7 +215,8 @@ def get_response( fromChannel, user_name, requestText ):
     elif response['intents']:
         response_text, attachment = get_response_from_intent(user_name, response)    
         # We fully handled the user's request, so we clear the context.
-        contexts[user_name] = None
+        if response['intents'] in ['General_Negative_Feedback', 'General_Positive_Feedback', 'General_Ending', 'todaysholidays', 'createvacation', 'thisweeksholidays' ]:
+            contexts[user_name] = None
     else:
         response_text = "I didn't get that. Please try rephrasing. Ask 'What can I ask you?' for help"
 
