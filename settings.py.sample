@@ -8,6 +8,9 @@ MATTERMOST_URL = 'https://mattermost.mydomain.com'
 # http://docs.mattermost.com/developer/webhooks-outgoing.html
 MATTERMOST_TOKEN = ''
 
+# Mandatory, when using Slack, see https://api.slack.com/bot-users#installing-bot
+SLACK_BOT_USER_OAUTH_TOKEN = ''
+
 # Port for the bot server
 WEBSERVER_PORT = 5000
 
@@ -15,7 +18,7 @@ WEBSERVER_PORT = 5000
 BOT_NAME = 'CalendarBot'
 BOT_ICON = ''
 
-# IBM Watson credentials 
+# IBM Watson credentials
 WATSON_URL = 'https://gateway-wdc.watsonplatform.net/assistant/api'
 WATSON_API_KEY = 'INSERT_API_KEY_HERE'
 WATSON_WORKSPACE_ID = 'INSERT_WORKSPACE_ID_HERE'
