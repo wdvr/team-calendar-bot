@@ -4,4 +4,7 @@ Chatbot to interact with [team calendar](https://github.com/wdvr/team-calendar).
 
 Works with Mattermost and Slack (soon). Uses IBM Watson for Text-to-Intent.
 
-Requirements: Python 3, some libs (TODO: requirements.txt)
+## Requirements
+You will need Python 3 with pip.
+
+run `pip install -r requirements.txt`

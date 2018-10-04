@@ -23,3 +23,6 @@ WATSON_WORKSPACE_ID = 'INSERT_WORKSPACE_ID_HERE'
 # TeamCalendar & API URL
 TEAM_CALENDAR_URL = 'http://localhost:4200'
 TEAM_CALENDAR_API_URL = 'http://localhost:8080/api'
+
+# Team main timezone as defined in pytz: https://gist.github.com/heyalexej/8bf688fd67d7199be4a1682b3eec7568
+TIME_ZONE = "US/Eastern"
