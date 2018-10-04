@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-from flask import Flask, request, Response, json
+from flask import Flask, request, Response, json, abort
 import settings
 import re
 import requests
@@ -16,41 +16,40 @@ UNKNOWN_USER = {'name': 'Unknown user', 'color': '#FF141A'}
 
 @app.route('/', methods=['GET'])
 def api_welcome():
-    return 'Welcome to the CalendarBot API. It seems that the server is running correctly. Use a POST to this URL to get '
+    return 'Welcome to the CalendarBot API. It seems that the server is running correctly. Use a POST to this URL to get stuff.'
 
 @app.route('/', methods=['POST'])
 def receive_slack():
     body = request.json
-    print(body)
     if 'challenge' in body:
-        return Response(json={'challenge': body['challenge']},
+        return Response(json.dumps({'challenge': body['challenge']}),
                         status=200,
                         mimetype='application/json')
     event_type = body['event']['type']
+
+    if 'username' in body['event'] and body['event']['username'] == 'Calendar Bot':
+        print("not reacting to my own message")
+        return ""
+
     if event_type != "app_mention" and event_type != "message":
         print("I am not reacting to {}".format(event_type))
-        return respondOK()
+        return ""
     try:
         token = body['token']
         fromChannel = body['event']['channel']
         user_name = body['event']['user']
         requestText = body['event']['text']
-        payload = get_response( fromChannel, user_name, requestText )
-        send_message_back( payload )
-        return respondOK()
     except:
         print('Something went wrong when initializing the parameters.')
-        return respondError()
+        abort(500)
 
+    payload = get_response( fromChannel, user_name, requestText )
+    send_message_back( payload )
+    print("payload sent")
+    return ""
 def send_message_back( payload ):
     headers = {"Authorization":"Bearer "+ settings.SLACK_BOT_USER_OAUTH_TOKEN}
     requests.post(settings.SLACK_URL, headers=headers, json=payload)
-
-def respondOK():
-    return Response(status=200, mimetype='application/json')
-
-def respondError():
-    return Response(status=500, mimetype='application/json')
 
 def get_error_payload( channel, errorMessage ):
     '''
