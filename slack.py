@@ -29,7 +29,7 @@ def receive_slack():
     event_type = body['event']['type']
     if event_type != "app_mention" and event_type != "message":
         print("I am not reacting to {}".format(event_type))
-        return
+        return respondOK()
     try:
         token = body['token']
         fromChannel = body['event']['channel']
@@ -37,12 +37,20 @@ def receive_slack():
         requestText = body['event']['text']
         payload = get_response( fromChannel, user_name, requestText )
         send_message_back( payload )
+        return respondOK()
     except:
         print('Something went wrong when initializing the parameters.')
+        return respondError()
 
 def send_message_back( payload ):
     headers = {"Authorization":"Bearer "+ settings.SLACK_BOT_USER_OAUTH_TOKEN}
     requests.post(settings.SLACK_URL, headers=headers, json=payload)
+
+def respondOK():
+    return Response(status=200, mimetype='application/json')
+
+def respondError():
+    return Response(status=500, mimetype='application/json')
 
 def get_error_payload( channel, errorMessage ):
     '''
