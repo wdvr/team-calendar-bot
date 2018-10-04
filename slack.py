@@ -45,8 +45,8 @@ def receive_slack():
 
     payload = get_response( fromChannel, user_name, requestText )
     send_message_back( payload )
-    print("payload sent")
     return ""
+
 def send_message_back( payload ):
     headers = {"Authorization":"Bearer "+ settings.SLACK_BOT_USER_OAUTH_TOKEN}
     requests.post(settings.SLACK_URL, headers=headers, json=payload)
@@ -114,7 +114,8 @@ def handle_create_vacation(user_name, context):
     start_date = context['date']
     end_date = context['date_2'] if 'date_2' in context else context['date']
 
-    users = requests.get(settings.TEAM_CALENDAR_API_URL+'/users').json()
+    user_response = requests.get(settings.TEAM_CALENDAR_API_URL+'/users')
+    users = user_response.json()
     user = findUser(user_name, users)
     vacation = events.VacationEvent(user=user_name, type=vacation_type, start_date=start_date, end_date=end_date)
     r = requests.post(settings.TEAM_CALENDAR_API_URL+'/events', json=json.loads(vacation.toJSON()))
@@ -171,8 +172,8 @@ def findUser(username, users):
     return UNKNOWN_USER
 
 def getVacationTable(vacation_json):
-    users = requests.get(settings.TEAM_CALENDAR_API_URL+'/users').json()
-
+    user_response = requests.get(settings.TEAM_CALENDAR_API_URL+'/users')
+    users = user_response.json()
     vacations_attachment = []
     for vacation in vacation_json:
         type = events.get_watson_type_string(vacation['type'])
