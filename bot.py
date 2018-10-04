@@ -105,8 +105,12 @@ def handle_create_vacation(user_name, context):
     '''
     Handles the creation of a new vacation request. Returns a result string, no attachment.
     '''
-    vacation_type = context['vacationtype']
-    start_date = context['date']
+    try:
+        vacation_type = context['vacationtype']
+        start_date = context['date']
+    except: 
+        # Intent must have been interrupted, because we don't have what we need.
+        return "I didn't change the calendar.", None
     end_date = context['date_2'] if 'date_2' in context else context['date']
 
     users = requests.get(settings.TEAM_CALENDAR_API_URL+'/users').json()
@@ -215,7 +219,8 @@ def get_response( fromChannel, user_name, requestText ):
     elif response['intents']:
         response_text, attachment = get_response_from_intent(user_name, response)    
         # We fully handled the user's request, so we clear the context.
-        if response['intents'] in ['General_Negative_Feedback', 'General_Positive_Feedback', 'General_Ending', 'todaysholidays', 'createvacation', 'thisweeksholidays' ]:
+        print('processing intent #'+response['intents'][0]['intent'])
+        if response['intents'][0]['intent'] in ['help', 'General_About_You', 'General_Negative_Feedback', 'General_Positive_Feedback', 'General_Ending', 'todaysholidays', 'createvacation', 'thisweeksholidays' ]:
             contexts[user_name] = None
     else:
         response_text = "I didn't get that. Please try rephrasing. Ask 'What can I ask you?' for help"
