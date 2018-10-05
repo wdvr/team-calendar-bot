@@ -5,7 +5,7 @@
             "intent": "General_Ending",
             "examples": [
                 {
-                    "text": "Go off"
+                    "text": "Bye bye"
                 },
                 {
                     "text": "Time to go"
@@ -62,33 +62,6 @@
                     "text": "I want to quit"
                 },
                 {
-                    "text": "Bye bye"
-                },
-                {
-                    "text": "Bye now"
-                },
-                {
-                    "text": "Catch you later"
-                },
-                {
-                    "text": "Cya later"
-                },
-                {
-                    "text": "End trial"
-                },
-                {
-                    "text": "Ending this session"
-                },
-                {
-                    "text": "Finished now, good bye"
-                },
-                {
-                    "text": "Get lost"
-                },
-                {
-                    "text": "Go away"
-                },
-                {
                     "text": "I have got to go"
                 },
                 {
@@ -114,6 +87,33 @@
                 },
                 {
                     "text": "Going now"
+                },
+                {
+                    "text": "Go off"
+                },
+                {
+                    "text": "Go away"
+                },
+                {
+                    "text": "Get lost"
+                },
+                {
+                    "text": "Finished now, good bye"
+                },
+                {
+                    "text": "Ending this session"
+                },
+                {
+                    "text": "End trial"
+                },
+                {
+                    "text": "Cya later"
+                },
+                {
+                    "text": "Catch you later"
+                },
+                {
+                    "text": "Bye now"
                 }
             ],
             "description": "End the conversation."
@@ -121,6 +121,9 @@
         {
             "intent": "General_Agent_Capabilities",
             "examples": [
+                {
+                    "text": "What kinds of things can you do?"
+                },
                 {
                     "text": "I'd like to know what type of questions you can answer for me."
                 },
@@ -176,9 +179,6 @@
                     "text": "What is this 4?"
                 },
                 {
-                    "text": "What kinds of things can you do?"
-                },
-                {
                     "text": "Where can I find the frequently asked questions?"
                 },
                 {
@@ -218,33 +218,6 @@
             "intent": "General_Positive_Feedback",
             "examples": [
                 {
-                    "text": "This is so cool"
-                },
-                {
-                    "text": "You are awesome"
-                },
-                {
-                    "text": "You are great"
-                },
-                {
-                    "text": "You are the best"
-                },
-                {
-                    "text": "You are wonderful"
-                },
-                {
-                    "text": "You gave me exactly what I need!"
-                },
-                {
-                    "text": "You the man"
-                },
-                {
-                    "text": "You're a genius!"
-                },
-                {
-                    "text": "You've been so helpful :)"
-                },
-                {
                     "text": "Brilliant!"
                 },
                 {
@@ -273,6 +246,33 @@
                 },
                 {
                     "text": "This is great"
+                },
+                {
+                    "text": "This is so cool"
+                },
+                {
+                    "text": "You are awesome"
+                },
+                {
+                    "text": "You are great"
+                },
+                {
+                    "text": "You are the best"
+                },
+                {
+                    "text": "You are wonderful"
+                },
+                {
+                    "text": "You gave me exactly what I need!"
+                },
+                {
+                    "text": "You the man"
+                },
+                {
+                    "text": "You're a genius!"
+                },
+                {
+                    "text": "You've been so helpful :)"
                 }
             ],
             "description": "Express positive sentiment or gratitude."
@@ -281,7 +281,7 @@
             "intent": "General_Human_or_Bot",
             "examples": [
                 {
-                    "text": "Am I talking to Watson?"
+                    "text": "Am I talking to a Bot?"
                 },
                 {
                     "text": "Tell me, are you a human or no?"
@@ -308,13 +308,13 @@
                     "text": "Are you a human or a bot?"
                 },
                 {
-                    "text": "Am I talking to a person or am I talking to an AI?"
-                },
-                {
-                    "text": "Am I talking to a Bot?"
-                },
-                {
                     "text": "Am I chatting with a human?"
+                },
+                {
+                    "text": "Am I talking to Watson?"
+                },
+                {
+                    "text": "Am I talking to a person or am I talking to an AI?"
                 }
             ],
             "description": "Ask if speaking to a human or a bot."
@@ -322,6 +322,12 @@
         {
             "intent": "createvacation",
             "examples": [
+                {
+                    "text": "next Wednesday I'll work from home"
+                },
+                {
+                    "text": "I will take a day off tomorrow"
+                },
                 {
                     "text": "I have a site visit tomorrow"
                 },
@@ -350,31 +356,25 @@
                     "text": "i am off today"
                 },
                 {
-                    "text": "I will take a day off tomorrow"
-                },
-                {
-                    "text": "Tomorrow I'll work from home"
-                },
-                {
-                    "text": "I will work from home tomorrow"
-                },
-                {
-                    "text": "working from home today"
-                },
-                {
-                    "text": "I will work from home today"
-                },
-                {
-                    "text": "I am sick today"
+                    "text": "I will be off next week Tuesday"
                 },
                 {
                     "text": "I will take a holiday from 8th until 15th of September"
                 },
                 {
-                    "text": "I will be off next week Tuesday"
+                    "text": "I am sick today"
                 },
                 {
-                    "text": "next Wednesday I'll work from home"
+                    "text": "I will work from home today"
+                },
+                {
+                    "text": "working from home today"
+                },
+                {
+                    "text": "I will work from home tomorrow"
+                },
+                {
+                    "text": "Tomorrow I'll work from home"
                 }
             ],
             "description": "Add a vacation from a certain user"
@@ -382,9 +382,6 @@
         {
             "intent": "todaysholidays",
             "examples": [
-                {
-                    "text": "Who is off today?"
-                },
                 {
                     "text": "who is out of office today?"
                 },
@@ -402,6 +399,9 @@
                 },
                 {
                     "text": "who is not here today?"
+                },
+                {
+                    "text": "Who is off today?"
                 }
             ],
             "description": "Who is off today?"
@@ -410,25 +410,52 @@
             "intent": "General_Negative_Feedback",
             "examples": [
                 {
-                    "text": "You're really frustrating"
+                    "text": "Stupid"
                 },
                 {
-                    "text": "You are very frustrating"
+                    "text": "I do not like you"
                 },
                 {
-                    "text": "You are on my nerves"
+                    "text": "Hate you"
                 },
                 {
-                    "text": "You are having delusions"
+                    "text": "Everyone hates you"
                 },
                 {
-                    "text": "Why are you stupid?"
+                    "text": "Do not like you?"
                 },
                 {
                     "text": "Why are you so annoying?"
                 },
                 {
-                    "text": "Stupid"
+                    "text": "Why are you stupid?"
+                },
+                {
+                    "text": "You are having delusions"
+                },
+                {
+                    "text": "You are on my nerves"
+                },
+                {
+                    "text": "You are very frustrating"
+                },
+                {
+                    "text": "You do not seem smart"
+                },
+                {
+                    "text": "You're really frustrating"
+                },
+                {
+                    "text": "You're really irritating"
+                },
+                {
+                    "text": "You're too stupid"
+                },
+                {
+                    "text": "@calendarbot you are limited in intellect"
+                },
+                {
+                    "text": "@calendarbot are you a liar!!!"
                 },
                 {
                     "text": "Robots are stupid"
@@ -447,27 +474,6 @@
                 },
                 {
                     "text": "I hate this!"
-                },
-                {
-                    "text": "I do not like you"
-                },
-                {
-                    "text": "Hate you"
-                },
-                {
-                    "text": "Everyone hates you"
-                },
-                {
-                    "text": "Do not like you?"
-                },
-                {
-                    "text": "You're too stupid"
-                },
-                {
-                    "text": "You're really irritating"
-                },
-                {
-                    "text": "You do not seem smart"
                 }
             ],
             "description": "Express unfavorable feedback."
@@ -476,22 +482,13 @@
             "intent": "General_About_You",
             "examples": [
                 {
-                    "text": "Do you have a name?"
-                },
-                {
-                    "text": "Do you know who you are?"
-                },
-                {
-                    "text": "How can I configure you?"
-                },
-                {
-                    "text": "How do you function?"
-                },
-                {
-                    "text": "How old are you?"
-                },
-                {
                     "text": "I want to set up the chat bot for my shop"
+                },
+                {
+                    "text": "About you"
+                },
+                {
+                    "text": "Can I use another language?"
                 },
                 {
                     "text": "Introduce your self"
@@ -503,37 +500,46 @@
                     "text": "Tell me about your life"
                 },
                 {
+                    "text": "Tell me something about yourself"
+                },
+                {
                     "text": "Why are you here?"
                 },
                 {
                     "text": "Who are you?"
                 },
                 {
-                    "text": "Where were you born?"
-                },
-                {
-                    "text": "Where are you from?"
-                },
-                {
-                    "text": "What's your name?"
-                },
-                {
-                    "text": "What should I know about you?"
+                    "text": "How old are you?"
                 },
                 {
                     "text": "What languages do you speak?"
                 },
                 {
-                    "text": "Tell me something about yourself"
+                    "text": "What should I know about you?"
                 },
                 {
-                    "text": "About you"
+                    "text": "What's your name?"
                 },
                 {
-                    "text": "Can I use another language?"
+                    "text": "Where are you from?"
+                },
+                {
+                    "text": "Where were you born?"
                 },
                 {
                     "text": "Describe your self"
+                },
+                {
+                    "text": "Do you have a name?"
+                },
+                {
+                    "text": "Do you know who you are?"
+                },
+                {
+                    "text": "How can I configure you?"
+                },
+                {
+                    "text": "How do you function?"
                 }
             ],
             "description": "Request generic personal attributes."
@@ -542,7 +548,7 @@
             "intent": "General_Security_Assurance",
             "examples": [
                 {
-                    "text": "Will my conversation remain secured?"
+                    "text": "Is my card info secure?"
                 },
                 {
                     "text": "Are you safe on hackers?"
@@ -581,9 +587,6 @@
                     "text": "In what way can I tell if my plastic is safe?"
                 },
                 {
-                    "text": "Is my card info secure?"
-                },
-                {
                     "text": "Is my payment information secure?"
                 },
                 {
@@ -618,6 +621,9 @@
                 },
                 {
                     "text": "Why would I trust this chat?"
+                },
+                {
+                    "text": "Will my conversation remain secured?"
                 }
             ],
             "description": "Express concerns about the security of the bot."
@@ -626,37 +632,67 @@
             "intent": "General_Connect_to_Agent",
             "examples": [
                 {
+                    "text": "I don't want to talk to you"
+                },
+                {
                     "text": "I don't want to talk to a bot."
                 },
                 {
                     "text": "How can I skip the recorded menu and go straight to a live person?"
                 },
                 {
-                    "text": "Yes, take me to a real person"
+                    "text": "Hi can you transfer me"
                 },
                 {
-                    "text": "Where is the closest agent?"
+                    "text": "Do not want a robot?"
                 },
                 {
-                    "text": "Send me to an agent"
+                    "text": "Customer service representative please."
                 },
                 {
-                    "text": "Put me through to someone"
+                    "text": "Could you please transfer me to your master?"
                 },
                 {
-                    "text": "Pls connect"
+                    "text": "Contact person"
                 },
                 {
-                    "text": "Please let me talk to a human being."
+                    "text": "Connect me to a live operator please."
                 },
                 {
-                    "text": "Please connect me to a live agent"
+                    "text": "Can I talk to someone?"
+                },
+                {
+                    "text": "Can you assist me to connect to an agent?"
                 },
                 {
                     "text": "Please assist me to get to an agent"
                 },
                 {
+                    "text": "Please connect me to a live agent"
+                },
+                {
+                    "text": "Please let me talk to a human being."
+                },
+                {
+                    "text": "Pls connect"
+                },
+                {
+                    "text": "Put me through to someone"
+                },
+                {
+                    "text": "Send me to an agent"
+                },
+                {
+                    "text": "Where is the closest agent?"
+                },
+                {
+                    "text": "Yes, take me to a real person"
+                },
+                {
                     "text": "A real agent, please."
+                },
+                {
+                    "text": "Can you connect me with a real person?"
                 },
                 {
                     "text": "Agent help"
@@ -678,33 +714,6 @@
                 },
                 {
                     "text": "Can I speak with somebody?"
-                },
-                {
-                    "text": "Can I talk to someone?"
-                },
-                {
-                    "text": "Can you assist me to connect to an agent?"
-                },
-                {
-                    "text": "Can you connect me with a real person?"
-                },
-                {
-                    "text": "Connect me to a live operator please."
-                },
-                {
-                    "text": "Contact person"
-                },
-                {
-                    "text": "Could you please transfer me to your master?"
-                },
-                {
-                    "text": "Customer service representative please."
-                },
-                {
-                    "text": "Do not want a robot?"
-                },
-                {
-                    "text": "Hi can you transfer me"
                 },
                 {
                     "text": "Operator please"
@@ -735,9 +744,6 @@
                 },
                 {
                     "text": "I need to speak to a representative. How would I go about doing so?"
-                },
-                {
-                    "text": "I don't want to talk to you"
                 }
             ],
             "description": "Request a human agent."
@@ -746,10 +752,49 @@
             "intent": "General_Greetings",
             "examples": [
                 {
-                    "text": "Good morning"
+                    "text": "How are things going?"
+                },
+                {
+                    "text": "How have you been?"
+                },
+                {
+                    "text": "How is it going?"
+                },
+                {
+                    "text": "How r u?"
+                },
+                {
+                    "text": "Looking good eve"
+                },
+                {
+                    "text": "Ok take me back"
+                },
+                {
+                    "text": "What's new?"
+                },
+                {
+                    "text": "What's up?"
+                },
+                {
+                    "text": "Who is this?"
+                },
+                {
+                    "text": "You there"
+                },
+                {
+                    "text": "Hi calendarbot"
                 },
                 {
                     "text": "Good day"
+                },
+                {
+                    "text": "Good evening"
+                },
+                {
+                    "text": "Good morning"
+                },
+                {
+                    "text": "Good to see you"
                 },
                 {
                     "text": "Greetings"
@@ -788,43 +833,7 @@
                     "text": "Hi there"
                 },
                 {
-                    "text": "How are things going?"
-                },
-                {
                     "text": "How are you today?"
-                },
-                {
-                    "text": "How have you been?"
-                },
-                {
-                    "text": "How is it going?"
-                },
-                {
-                    "text": "How r u?"
-                },
-                {
-                    "text": "Looking good eve"
-                },
-                {
-                    "text": "Ok take me back"
-                },
-                {
-                    "text": "What's new?"
-                },
-                {
-                    "text": "What's up?"
-                },
-                {
-                    "text": "Who is this?"
-                },
-                {
-                    "text": "You there"
-                },
-                {
-                    "text": "Good to see you"
-                },
-                {
-                    "text": "Good evening"
                 }
             ],
             "description": "Greet the bot."
@@ -854,10 +863,16 @@
             "intent": "help",
             "examples": [
                 {
-                    "text": "How does this work?"
+                    "text": "What can I ask you?"
                 },
                 {
                     "text": "What can you do?"
+                },
+                {
+                    "text": "i don't get it"
+                },
+                {
+                    "text": "can you repeat?"
                 },
                 {
                     "text": "I don't understand"
@@ -866,7 +881,7 @@
                     "text": "Explain yourself"
                 },
                 {
-                    "text": "What can I ask you?"
+                    "text": "How does this work?"
                 }
             ],
             "description": "What can you do?"
@@ -875,16 +890,40 @@
             "intent": "General_Jokes",
             "examples": [
                 {
-                    "text": "I am getting bored"
-                },
-                {
-                    "text": "Do you like humor?"
+                    "text": "Do you have humor?"
                 },
                 {
                     "text": "Do you like fun?"
                 },
                 {
-                    "text": "Do you have humor?"
+                    "text": "Do you like humor?"
+                },
+                {
+                    "text": "What is your favorite joke?"
+                },
+                {
+                    "text": "What do you do for fun?"
+                },
+                {
+                    "text": "Tell me something funny"
+                },
+                {
+                    "text": "Tell me a joke"
+                },
+                {
+                    "text": "Surprise me with something hilarious"
+                },
+                {
+                    "text": "One more joke"
+                },
+                {
+                    "text": "I'm bored"
+                },
+                {
+                    "text": "I want a joke"
+                },
+                {
+                    "text": "I am getting bored"
                 },
                 {
                     "text": "Do you have a joke?"
@@ -900,30 +939,6 @@
                 },
                 {
                     "text": "Another joke"
-                },
-                {
-                    "text": "What is your favorite joke?"
-                },
-                {
-                    "text": "What do you do for fun?"
-                },
-                {
-                    "text": "Tell me a joke"
-                },
-                {
-                    "text": "Tell me something funny"
-                },
-                {
-                    "text": "Surprise me with something hilarious"
-                },
-                {
-                    "text": "One more joke"
-                },
-                {
-                    "text": "I'm bored"
-                },
-                {
-                    "text": "I want a joke"
                 }
             ],
             "description": "Request a joke."
@@ -1013,22 +1028,56 @@
         {
             "type": "event_handler",
             "output": {
-                "text": "Why will you be off?"
+                "text": {
+                    "values": [
+                        "I really want to know why you will be off. Pretty please?"
+                    ],
+                    "selection_policy": "sequential"
+                }
             },
             "parent": "slot_4_1537990326560",
-            "event_name": "focus",
-            "dialog_node": "handler_6_1537990326560",
+            "metadata": {},
+            "event_name": "nomatch",
+            "dialog_node": "handler_2_1538668491635",
             "previous_sibling": "handler_5_1537990326560"
         },
         {
             "type": "event_handler",
+            "output": {},
             "parent": "slot_4_1537990326560",
             "context": {
                 "vacationtype": "@vacationtype"
             },
+            "metadata": {},
             "conditions": "@vacationtype",
             "event_name": "input",
-            "dialog_node": "handler_5_1537990326560"
+            "dialog_node": "handler_5_1537990326560",
+            "previous_sibling": "handler_6_1537990326560"
+        },
+        {
+            "type": "event_handler",
+            "output": {
+                "text": "Why will you be off?"
+            },
+            "parent": "slot_4_1537990326560",
+            "metadata": {},
+            "event_name": "focus",
+            "dialog_node": "handler_6_1537990326560"
+        },
+        {
+            "type": "event_handler",
+            "output": {
+                "text": {
+                    "values": [
+                        "Please answer my previous question. Or just say 'Stop' to cancel."
+                    ]
+                }
+            },
+            "parent": "node_2_1537981284953",
+            "conditions": "#help",
+            "event_name": "generic",
+            "dialog_node": "handler_11_1538669144566",
+            "previous_sibling": "handler_10_1538669112209"
         },
         {
             "type": "slot",
@@ -1044,15 +1093,98 @@
             "output": {},
             "parent": "node_2_1537981284953",
             "metadata": {},
+            "variable": "$vacationtype",
+            "dialog_node": "slot_4_1537990326560",
+            "previous_sibling": "handler_12_1538669173504"
+        },
+        {
+            "type": "event_handler",
+            "output": {
+                "text": {
+                    "values": [
+                        "Let's talk about that afterwards. Please give the requested input or say 'Stop' to cancel this request."
+                    ]
+                }
+            },
+            "parent": "node_2_1537981284953",
+            "conditions": "#General_Agent_Capabilities",
+            "event_name": "generic",
+            "dialog_node": "handler_12_1538669173504",
+            "previous_sibling": "handler_11_1538669144566"
+        },
+        {
+            "type": "event_handler",
+            "output": {
+                "text": {
+                    "values": [
+                        "I am sorry you feel this way. I'll try to do better next time."
+                    ]
+                }
+            },
+            "parent": "node_2_1537981284953",
+            "metadata": {},
+            "next_step": {
+                "behavior": "skip_all_slots"
+            },
+            "conditions": "#General_Negative_Feedback",
+            "event_name": "generic",
+            "dialog_node": "handler_10_1538669112209",
+            "previous_sibling": "handler_7_1538668641484"
+        },
+        {
+            "type": "slot",
+            "output": {},
+            "parent": "node_2_1537981284953",
+            "metadata": {},
             "variable": "$date_2",
             "dialog_node": "slot_10_1537990360148",
             "previous_sibling": "slot_7_1537990349331"
         },
         {
-            "type": "slot",
+            "type": "event_handler",
+            "output": {
+                "text": {
+                    "values": [
+                        "Ok. Let me know if you change your mind and need help again."
+                    ]
+                }
+            },
             "parent": "node_2_1537981284953",
-            "variable": "$vacationtype",
-            "dialog_node": "slot_4_1537990326560"
+            "metadata": {},
+            "next_step": {
+                "behavior": "skip_all_slots"
+            },
+            "conditions": "#General_Ending",
+            "event_name": "generic",
+            "dialog_node": "handler_7_1538668641484"
+        },
+        {
+            "type": "event_handler",
+            "output": {
+                "text": {
+                    "values": [
+                        "I didn't get that. When will you be off?"
+                    ],
+                    "selection_policy": "sequential"
+                }
+            },
+            "parent": "slot_7_1537990349331",
+            "event_name": "nomatch",
+            "dialog_node": "handler_5_1538668551733",
+            "previous_sibling": "handler_8_1537990349331"
+        },
+        {
+            "type": "event_handler",
+            "output": {},
+            "parent": "slot_7_1537990349331",
+            "context": {
+                "date": "@sys-date"
+            },
+            "metadata": {},
+            "conditions": "@sys-date",
+            "event_name": "input",
+            "dialog_node": "handler_8_1537990349331",
+            "previous_sibling": "handler_9_1537990349331"
         },
         {
             "type": "event_handler",
@@ -1060,19 +1192,9 @@
                 "text": "When will you be off?"
             },
             "parent": "slot_7_1537990349331",
+            "metadata": {},
             "event_name": "focus",
-            "dialog_node": "handler_9_1537990349331",
-            "previous_sibling": "handler_8_1537990349331"
-        },
-        {
-            "type": "event_handler",
-            "parent": "slot_7_1537990349331",
-            "context": {
-                "date": "@sys-date"
-            },
-            "conditions": "@sys-date",
-            "event_name": "input",
-            "dialog_node": "handler_8_1537990349331"
+            "dialog_node": "handler_9_1537990349331"
         },
         {
             "type": "standard",
@@ -1165,24 +1287,8 @@
             "digress_in": "does_not_return",
             "dialog_node": "node_2_1537981284953",
             "digress_out": "allow_all",
-            "previous_sibling": "node_3_1538656084463",
+            "previous_sibling": "Welcome",
             "digress_out_slots": "not_allowed"
-        },
-        {
-            "type": "standard",
-            "output": {
-                "generic": [
-                    {
-                        "values": [],
-                        "response_type": "text",
-                        "selection_policy": "sequential"
-                    }
-                ]
-            },
-            "metadata": {},
-            "conditions": "#General_Ending",
-            "dialog_node": "node_3_1538656084463",
-            "previous_sibling": "Welcome"
         },
         {
             "type": "standard",
@@ -1302,7 +1408,11 @@
         }
     ],
     "workspace_id": "0adc17f2-af6a-45d8-ac18-a16d41e2d586",
-    "counterexamples": [],
+    "counterexamples": [
+        {
+            "text": "@calendarbot what is my horoscope?"
+        }
+    ],
     "system_settings": {
         "tooling": {
             "store_generic_responses": true

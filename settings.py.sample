@@ -1,5 +1,28 @@
 # -*- coding: utf-8 -*-
-"""In this file you can find user settings for the app"""
+
+#######################################################
+###      General: Always fill in this section.      ###
+#######################################################
+
+# Port for the bot server
+WEBSERVER_PORT = 5000
+
+# Team main timezone as defined in pytz: https://gist.github.com/heyalexej/8bf688fd67d7199be4a1682b3eec7568
+TIME_ZONE = "US/Eastern"
+
+# TeamCalendar & API URL
+TEAM_CALENDAR_URL = 'http://localhost:4200'
+TEAM_CALENDAR_API_URL = 'http://localhost:8080/api'
+
+# IBM Watson credentials
+WATSON_URL = 'https://gateway-wdc.watsonplatform.net/assistant/api'
+WATSON_API_KEY = 'INSERT_API_KEY_HERE'
+WATSON_WORKSPACE_ID = 'INSERT_WORKSPACE_ID_HERE'
+
+
+#######################################################
+### This section is only used when using Mattermost ###
+#######################################################
 
 # Mattermost base URL (no slash at the end):
 MATTERMOST_URL = 'https://mattermost.mydomain.com'
@@ -8,24 +31,14 @@ MATTERMOST_URL = 'https://mattermost.mydomain.com'
 # http://docs.mattermost.com/developer/webhooks-outgoing.html
 MATTERMOST_TOKEN = ''
 
-# Mandatory, when using Slack, see https://api.slack.com/bot-users#installing-bot
-SLACK_BOT_USER_OAUTH_TOKEN = ''
-
-# Port for the bot server
-WEBSERVER_PORT = 5000
-
 # Bot name and icon
 BOT_NAME = 'CalendarBot'
 BOT_ICON = ''
 
-# IBM Watson credentials
-WATSON_URL = 'https://gateway-wdc.watsonplatform.net/assistant/api'
-WATSON_API_KEY = 'INSERT_API_KEY_HERE'
-WATSON_WORKSPACE_ID = 'INSERT_WORKSPACE_ID_HERE'
 
-# TeamCalendar & API URL
-TEAM_CALENDAR_URL = 'http://localhost:4200'
-TEAM_CALENDAR_API_URL = 'http://localhost:8080/api'
+#######################################################
+###    This section is only used when using Slack   ###
+#######################################################
 
-# Team main timezone as defined in pytz: https://gist.github.com/heyalexej/8bf688fd67d7199be4a1682b3eec7568
-TIME_ZONE = "US/Eastern"
+# Mandatory, see https://api.slack.com/bot-users#installing-bot
+SLACK_BOT_USER_OAUTH_TOKEN = ''
