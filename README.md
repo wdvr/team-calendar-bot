@@ -35,7 +35,8 @@ For testing, simply run `python slack.py` (for the slack integration) or `python
 To put in production, use any way of deploying Flask applications (Heroku, pythonanywhere, ...)
 
 ## Docker
-Instead of using a local installation of python and dependencies, use the included Dockerfile.
+Instead of using a local installation of python and dependencies, use the included Dockerfile. You still need to adapt the settings.
 
 `docker build --tag team-calendar-bot:latest .`
+
 `docker run --rm -p 5000:5000 team-calendar-bot:latest`
