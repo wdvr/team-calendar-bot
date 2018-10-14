@@ -7,7 +7,7 @@ Works with Mattermost and Slack (soon). Uses IBM Watson for Text-to-Intent.
 ## Requirements
 
 ### Python
-You will need Python 3 with pip.
+You will need Python 3 with pip, or use docker (see below).
 
 run `pip install -r requirements.txt` to install all python dependencies
 
@@ -33,3 +33,9 @@ Create a Slack app (follow steps (here)[https://api.slack.com/bot-users]). Copy 
 ## Run
 For testing, simply run `python slack.py` (for the slack integration) or `python bot.py` (for the mattermost integration).
 To put in production, use any way of deploying Flask applications (Heroku, pythonanywhere, ...)
+
+## Docker
+Instead of using a local installation of python and dependencies, use the included Dockerfile.
+
+`docker build --tag team-calendar-bot:latest .`
+`docker run --rm -p 5000:5000 team-calendar-bot:latest`
