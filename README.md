@@ -4,6 +4,20 @@ Chatbot to interact with [team calendar](https://github.com/wdvr/team-calendar).
 
 Works with Mattermost and Slack (soon). Uses IBM Watson for Text-to-Intent.
 
+## Sample utterances
+You can add availabilities:
+> @calendarbot, I will be off tomorrow.
+
+> @calendarbot, I am in holiday from next Tuesday till Friday.
+
+> @calendarbot, I am sick today.
+
+Then to fetch availabilities:
+> calendarbot, who's in today?
+
+> calendarbot, who is in the office this week?
+
+
 ## Requirements
 
 ### Python
