@@ -35,7 +35,6 @@ def receive_slack():
         print("I am not reacting to {}".format(event_type))
         return ""
     try:
-        token = body['token']
         fromChannel = body['event']['channel']
         user_name = body['event']['user']
         requestText = body['event']['text']
