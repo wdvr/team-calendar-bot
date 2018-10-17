@@ -40,7 +40,7 @@ BOT_ICON = ''
 ###    This section is only used when using Slack   ###
 #######################################################
 
-SLACK_URL = "https://slack.com/api/chat.postMessage"
+SLACK_URL = "https://slack.com/api"
 
 # Mandatory, see https://api.slack.com/bot-users#installing-bot
 SLACK_BOT_USER_OAUTH_TOKEN = ''

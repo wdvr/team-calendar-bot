@@ -66,7 +66,7 @@ def handle_create_vacation(user_name, context):
         user_info = r.USER_UNKNOWN if user == UNKNOWN_USER else ""
 
         date_string = r.FROM_UNTIL.format(start_date, end_date) if start_date != end_date else r.ON_DAY.format(start_date)
-        response_text = r.AVAILABILITY_ADDED.format(vacation_type, date_string) + user_info + r.CHECK_WEBSITE.format(settings.TEAM_CALENDAR_URL)
+        response_text = r.AVAILABILITY_ADDED.format(vacation_type, date_string) + user_info + ' ' + r.CHECK_WEBSITE.format(settings.TEAM_CALENDAR_URL)
     else:
         response_text = r.CALENDAR_API_ERROR.format(response.status_code, response.reason, response.content)
 
