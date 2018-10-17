@@ -23,7 +23,7 @@ Then to fetch availabilities:
 ### Python
 You will need Python 3 with pip, or use docker (see below).
 
-run `pip install -r requirements.txt` to install all python dependencies
+run `pip install -r requirements.txt` to install all python dependencies.
 
 ### Settings
 
@@ -41,11 +41,17 @@ If using Mattermost, create an outgoing hook, without triggerword. The triggerwo
 Content Type should be JSON, Callback URL should be wherever this python app is running.
 
 #### Slack
-Start `python slack.py`
-Create a Slack app (follow steps (here)[https://api.slack.com/bot-users]). Copy the OAuth token to settings.py.
+Create a Slack app (follow steps (here)[https://api.slack.com/bot-users]).
+
+Subscribe to following Bot Events:
+- app_mention
+- message.channels
+- message.im
+
+ Copy the Bot OAuth token to settings.py.
 
 ## Run
-For testing, simply run `python slack.py` (for the slack integration) or `python bot.py` (for the mattermost integration).
+For testing, simply run `python slack.py` (for the slack integration) or `python mattermost.py` (for the mattermost integration).
 To put in production, use any way of deploying Flask applications (Heroku, pythonanywhere, ...)
 
 ## Docker
