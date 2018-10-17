@@ -59,7 +59,8 @@ def get_error_payload( channel, errorMessage ):
 
 def get_response( fromChannel, user_name, requestText ):
     response_text, attachment = bot.get_response_and_attachments(user_name, requestText)
-    
+    if not response_text and not attachment:
+        return
     return { 'response_type': 'in_channel', 
                 'channel': fromChannel, 
                 'text': response_text, 

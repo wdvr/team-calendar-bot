@@ -79,8 +79,8 @@ def handle_this_week_holidays():
     start = events.getStartOfThisWeekString()
     end = events.getEndOfThisWeekString()
 
-    r = requests.get(settings.TEAM_CALENDAR_API_URL+'/events', params = {"start" : start, "end": end})
-    results = r.json()
+    result = requests.get(settings.TEAM_CALENDAR_API_URL+'/events', params = {"start" : start, "end": end})
+    results = result.json()
     count = len(results)
 
     if count:
@@ -95,8 +95,8 @@ def handle_today_holidays():
     start = events.getStartOfTodayString()
     end = events.getEndOfTodayString()
 
-    r = requests.get(settings.TEAM_CALENDAR_API_URL+'/events', params = {"start" : start, "end": end})
-    results = r.json()
+    response = requests.get(settings.TEAM_CALENDAR_API_URL+'/events', params = {"start" : start, "end": end})
+    results = response.json()
     count = len(results)
 
     if count:
